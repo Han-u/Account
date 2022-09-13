@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 //@Data
 @Slf4j
 public class AccountDto {
