@@ -17,6 +17,11 @@ public class CreateAccount {
         @NotNull
         @Min(100)
         private Long initialBalance;
+
+        public Request(Long userId, Long initialBalance) {
+            this.userId = userId;
+            this.initialBalance = initialBalance;
+        }
     }
 
     @Getter
