@@ -1,4 +1,4 @@
-package com.zb.Account.domain;
+package com.zb.Account.type;
 
 public enum AccountStatus {
     IN_USE,

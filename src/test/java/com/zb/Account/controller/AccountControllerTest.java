@@ -1,7 +1,7 @@
 package com.zb.Account.controller;
 
 import com.zb.Account.domain.Account;
-import com.zb.Account.domain.AccountStatus;
+import com.zb.Account.type.AccountStatus;
 import com.zb.Account.service.AccountService;
 import com.zb.Account.service.RedisTestService;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
