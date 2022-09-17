@@ -23,7 +23,7 @@ public class Account {
 
     @ManyToOne
     private AccountUser accountUser;
-    private String accountNumer;
+    private String accountNumber;
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
@@ -33,7 +33,7 @@ public class Account {
     private LocalDateTime unRegisteredAt;
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }
