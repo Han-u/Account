@@ -3,6 +3,7 @@ package com.zb.Account.controller;
 import com.zb.Account.domain.Account;
 import com.zb.Account.dto.AccountDto;
 import com.zb.Account.dto.CreateAccount;
+import com.zb.Account.dto.DeleteAccount;
 import com.zb.Account.service.AccountService;
 import com.zb.Account.service.RedisTestService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,17 @@ public class AccountController {
                 )
         );
     }
+
+    @DeleteMapping("/account")
+    public DeleteAccount.Response deleteAccount(@RequestBody @Valid DeleteAccount.Request request){
+        return DeleteAccount.Response.from(
+                accountService.deleteAccount(
+                        request.getUserId(),
+                        request.getAccountNumber()
+                )
+        );
+    }
+
 
     @GetMapping("/get-lock")
     public String getLock(){
