@@ -1,6 +1,9 @@
 package com.zb.Account.controller;
 
+import com.zb.Account.dto.TransactionDto;
 import com.zb.Account.dto.UseBalance;
+import com.zb.Account.exception.AccountException;
+import com.zb.Account.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +22,18 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 public class TransactionController {
+    private final TransactionService transactionService;
     @PostMapping("transaction/use")
-    public void useBalance(@Valid @RequestBody UseBalance.Request request){
-
+    public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request){
+        try{
+            return UseBalance.Response.from(transactionService.useBalance(request.getUserId(), request.getAccountNumber(), request.getAmount()));
+        }catch(AccountException e){
+            log.error("Failed to use balance");
+            transactionService.saveFailedUseTransaction(
+                    request.getAccountNumber(),
+                    request.getAmount()
+            );
+            throw e;
+        }
     }
 }
