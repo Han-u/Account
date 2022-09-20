@@ -44,20 +44,11 @@ public class TransactionService {
                 .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
         Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
+
         validateUseBalance(user, account, amount);
 
         account.useBalance(amount);
 
-        Transaction transaction = transactionRepository.save(
-                Transaction.builder()
-                        .transactionType(TransactionType.USE)
-                        .transactionResultType(S)
-                        .account(account)
-                        .balanceSnapshot(account.getBalance())
-                        .transactionId(UUID.randomUUID().toString().replace("-", ""))
-                        .transactedAt(LocalDateTime.now())
-                        .build()
-        );
         return TransactionDto.fromEntity(saveAndGetTransaction(S, account, amount));
     }
 
