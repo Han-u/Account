@@ -5,9 +5,11 @@ import com.zb.Account.domain.Account;
 import com.zb.Account.dto.AccountDto;
 import com.zb.Account.dto.CreateAccount;
 import com.zb.Account.dto.DeleteAccount;
+import com.zb.Account.exception.AccountException;
 import com.zb.Account.type.AccountStatus;
 import com.zb.Account.service.AccountService;
 import com.zb.Account.service.RedisTestService;
+import com.zb.Account.type.ErrorCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -63,6 +65,21 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.accountNumber").value("1234567890"))
                 .andDo(print());
+    }
+
+    @Test
+    void failGetAccount() throws Exception {
+        //given
+        given(accountService.getAccount(anyLong()))
+                .willThrow(new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
+        //when
+
+        //then
+        mockMvc.perform(get("/account/876"))
+                .andDo(print())
+                .andExpect(jsonPath("$.errorCode").value("ACCOUNT_NOT_FOUND"))
+                .andExpect(jsonPath("$.errorMessage").value("계좌가 없습니다."))
+                .andExpect(status().isOk());
     }
 
     @Test
