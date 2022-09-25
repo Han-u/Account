@@ -1,5 +1,6 @@
 package com.zb.Account.controller;
 
+import com.zb.Account.app.AccountLock;
 import com.zb.Account.dto.CancelBalance;
 import com.zb.Account.dto.QueryTransactionResponse;
 import com.zb.Account.dto.TransactionDto;
@@ -24,8 +25,10 @@ import javax.validation.Valid;
 public class TransactionController {
     private final TransactionService transactionService;
     @PostMapping("transaction/use")
-    public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request){
+    @AccountLock
+    public UseBalance.Response useBalance(@Valid @RequestBody UseBalance.Request request) throws InterruptedException{
         try{
+            Thread.sleep(3000L);
             return UseBalance.Response.from(transactionService.useBalance(request.getUserId(), request.getAccountNumber(), request.getAmount()));
         }catch(AccountException e){
             log.error("Failed to use balance");
@@ -38,6 +41,7 @@ public class TransactionController {
     }
 
     @PostMapping("transaction/cancel")
+    @AccountLock
     public CancelBalance.Response cancelBalance(@Valid @RequestBody CancelBalance.Request request){
         try{
             return CancelBalance.Response.from(transactionService.cancelBalance(request.getTransactionId(), request.getAccountNumber(), request.getAmount()));

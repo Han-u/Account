@@ -1,5 +1,6 @@
 package com.zb.Account.dto;
 
+import com.zb.Account.app.AccountLockIdInterface;
 import com.zb.Account.type.TransactionResultType;
 import lombok.*;
 
@@ -10,7 +11,7 @@ public class UseBalance {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Request{
+    public static class Request implements AccountLockIdInterface{
         @NotNull
         @Min(1)
         private Long userId;
@@ -23,6 +24,11 @@ public class UseBalance {
         @Min(10)
         @Max(1000_000_000)
         private Long amount;
+
+        @Override
+        public String getAccountNumber() {
+            return null;
+        }
     }
 
     @Getter
